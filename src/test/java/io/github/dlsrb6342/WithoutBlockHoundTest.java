@@ -10,20 +10,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import reactor.blockhound.BlockHound;
-
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureWebTestClient
-public class BlockHoundTest {
+class WithoutBlockHoundTest {
 
     @Autowired
     WebTestClient testClient;
 
     @Test
-    void testWithBlockHound() {
-        BlockHound.install();
-        testClient.get().uri("/test")
+    void testController() {
+        testClient.get().uri("/controller")
+                  .headers(httpHeaders -> httpHeaders.setBasicAuth("test_user", "test_pass", StandardCharsets.UTF_8))
+                  .exchange()
+                  .expectStatus().isOk();
+    }
+
+    @Test
+    void testRouterFunction() {
+        testClient.get().uri("/routerfunction")
                   .headers(httpHeaders -> httpHeaders.setBasicAuth("test_user", "test_pass", StandardCharsets.UTF_8))
                   .exchange()
                   .expectStatus().isOk();

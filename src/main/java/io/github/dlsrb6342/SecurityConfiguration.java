@@ -18,7 +18,8 @@ public class SecurityConfiguration {
                    .requestCache().disable()
                    .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                    .authorizeExchange()
-                   .pathMatchers("/test").hasRole("MANAGER")
+                   .pathMatchers("/controller").hasRole("MANAGER")
+                   .pathMatchers("/routerfunction").hasRole("MANAGER")
                    .anyExchange().permitAll().and()
                    .build();
     }
